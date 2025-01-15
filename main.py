@@ -2,10 +2,28 @@ import sys
 import numpy
 from collections import defaultdict, deque
 
+def count_components(g):
+    n = len(g)
+    visited = set()
+    k = 0
+    for start in list(g.keys()):
+        if start in visited:
+            continue
+        k += 1
+        stack = [start]
+        while stack:
+            a = stack.pop()
+            if a in visited:
+                continue
+            visited.add(a)
+            for b, _, __ in g[a]:
+                stack.append(b)
+    return k
+
 def find_cycles(graph, edge_count):
 
     def create_vector(cycle_path):
-        # Create the vector representation of the cycle
+        """Create the vector representation of the cycle"""
         vector = [0] * edge_count
         for i, vertex in enumerate(cycle_path):
             next_vertex = cycle_path[(i + 1) % len(cycle_path)]
@@ -60,26 +78,32 @@ def main():
 
     print("Enter edges (u v): ")
     graph = defaultdict(list) # (to, flow direction, edge order)
+    vertices = set()
     for order in range(edge_count):
         u, v = map(int, input().split())
         graph[u].append((v, 1, order))   # Forward edge
         graph[v].append((u, -1, order))  # Backward edge
+        vertices.add(u)
+        vertices.add(v)
 
     # Find all cycles in the graph
     cycles = find_cycles(graph, edge_count)
     
-    if (not cycles):
+    if not cycles:
         print("Graph is acyclic")
         sys.exit()
     
     """
-    for cycle in cycles:
-        print(cycle)
+    for cycle, vector in cycles:
+        print(cycle, vector)
     """
 
-    # Construct the integral basis
-    basis = []
+    vertex_count = len(vertices)
+    component_count = count_components(graph)
+    dimension = edge_count - vertex_count + component_count
 
+    # Construct basis
+    basis = []
     for _, vector in cycles:
         # Test if adding this vector keeps the basis independent
         test_basis = basis + [vector]
@@ -88,11 +112,15 @@ def main():
         
         if rank > len(basis):  # Adding this vector increases the rank
             basis.append(vector)
-        else:
-            break
         
+        if len(basis) == dimension:
+            break
+
+
+    assert len(basis) == dimension
     print("Integral basis of the flow space of the graph:")
-    print(numpy.vstack(basis))
+    for vector in basis:
+        print('[', *vector, ']', sep = ' ')
 
 if __name__ == "__main__":
     main()
@@ -113,4 +141,14 @@ Sample inputs:
 3 2
 2 4
 4 3
+
+8
+12 13
+9 10
+10 11
+13 11
+3 9
+3 10
+12 10
+12 11
 """
