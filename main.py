@@ -68,7 +68,6 @@ def find_cycles(graph, edge_count):
 
     return sorted(result, key = lambda x: len(x[0]))
 
-
 def main():
     """Main function to find the integral basis of the flow space of a graph."""
     edge_count = int(input("Enter number of edges in graph: "))
@@ -116,8 +115,6 @@ def main():
         if len(basis) == dimension:
             break
 
-
-    assert len(basis) == dimension
     print("Integral basis of the flow space of the graph:")
     for vector in basis:
         print('[', *vector, ']', sep = ' ')
