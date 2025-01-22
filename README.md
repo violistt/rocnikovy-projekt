@@ -7,3 +7,6 @@ celočiselnu bázu tokového priestoru grafu nad $\mathbb{Q}$.
 V zimnom semestri je cieľom implementovať greedy algoritmus, ktorý postupne
 prechádza kružnice od najkratších a snaží sa ich vloziť do bázy.
 Vyhodnotíme úspešnosť algoritmu.
+
+## Unit testy
+`python3 -m unittest discover -s tests -p "test.py"`
