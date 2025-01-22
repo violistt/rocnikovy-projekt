@@ -57,8 +57,8 @@ class TestGraphFunctions(unittest.TestCase):
 
         self.assertEqual(result2, expected_cycles2)
 
-        result = find_cycles(self.acyclic_graph, 2)
-        self.assertEqual(result, [])
+        result3 = find_cycles(self.acyclic_graph, 2)
+        self.assertEqual(result3, [])
 
 if __name__ == "__main__":
     unittest.main()
