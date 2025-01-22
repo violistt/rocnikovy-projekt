@@ -13,10 +13,10 @@ class TestGraphFunctions(unittest.TestCase):
         })
 
         self.graph2 = defaultdict(list, {
-            1: [(3, 1, 0), (2, -1, 1)],
-            2: [(1, 1, 1), (4, 1, 2), (3, 1, 4)],
-            4: [(2, -1, 2), (3, -1, 5), (1, -1, 3)],
-            3: [(1, -1, 0), (4, 1, 5), (2, -1, 4)]
+            1: [(3, 1, 0), (2, -1, 1), (4, -1, 2)],
+            2: [(1, 1, 1), (3, -1, 3), (4, 1, 4)],
+            4: [(1, 1, 2), (2, -1, 4), (3, 1, 5)],
+            3: [(1, -1, 0), (2, 1, 3), (4, -1, 5)]
         })
 
         self.acyclic_graph = defaultdict(list, {
@@ -37,14 +37,25 @@ class TestGraphFunctions(unittest.TestCase):
         self.assertEqual(count_components(self.disconnected_graph), 2)
 
     def test_find_cycles(self):
-        result = find_cycles(self.graph1, 5)
-        expected_cycles = [
+        result1 = find_cycles(self.graph1, 5)
+        expected_cycles1 = [
             ([1, 2, 4], [1, 1, -1, 0, 0]),
             ([2, 4, 3], [0, 1, 0, -1, 1]),
             ([1, 2, 3, 4], [1, 0, -1, 1, -1])
         ]
 
-        self.assertEqual(result, expected_cycles)
+        self.assertEqual(result1, expected_cycles1)
+
+        result2 = find_cycles(self.graph2, 6)
+        expected_cycles2 = [
+            ([1, 3, 2], [1, 1, 0, 1, 0, 0]),
+            ([1, 3, 4], [1, 0, 1, 0, 0, -1]),
+            ([1, 2, 4], [0, -1, 1, 0, 1, 0]),
+            ([3, 2, 4], [0, 0, 0, 1, 1, 1]),
+            ([1, 3, 2, 4], [1, 0, 1, 1, 1, 0])
+        ]
+
+        self.assertEqual(result2, expected_cycles2)
 
         result = find_cycles(self.acyclic_graph, 2)
         self.assertEqual(result, [])
