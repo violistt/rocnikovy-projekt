@@ -115,6 +115,8 @@ def main():
         if len(basis) == dimension:
             break
 
+    assert len(basis) == dimension
+
     print("Integral basis of the flow space of the graph:")
     for vector in basis:
         print('[', *vector, ']', sep = ' ')
