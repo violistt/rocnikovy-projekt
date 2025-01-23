@@ -49,12 +49,13 @@ def find_cycles(graph, edge_count):
                 if neighbor in path:
                     cycle_start_index = path.index(neighbor)
                     cycle_path = path[cycle_start_index:]
-                    cycle = tuple(sorted(cycle_path))  # Sorted for uniqueness
 
-                    if cycle not in detected_cycles:
-                        # Create the vector representation of the cycle
-                        vector = create_vector(cycle_path)
-                        detected_cycles.add(cycle)
+                    # Create the vector representation of the cycle
+                    vector = tuple(create_vector(cycle_path))
+                    inv_vector = tuple([-c for c in vector]) # Same cycle in opposite direction
+
+                    if vector not in detected_cycles and inv_vector not in detected_cycles:
+                        detected_cycles.add(vector)
                         result.append((cycle_path, vector))
 
                 else:
