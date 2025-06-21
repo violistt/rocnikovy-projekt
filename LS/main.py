@@ -59,7 +59,7 @@ def find_shortest_cycles(graph, edges):
                 cur = parent[cur]
                 vb.append(cur)
             if len(set(va) & set(vb)):
-                # Cesty maju spolocny vrchol->nie je to cyklus
+                # Common vertex -> not a cycle
                 continue
             vb.reverse()
             vab = va + vb + [v]
